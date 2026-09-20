@@ -180,8 +180,9 @@ export default function Home() {
   } catch (error) {
     console.error(error);
     setMessage("Unable to save the spot. Please try again.");
-  }
-    
+    }
+
+  return (
     <main className="page">
       <section className="hero">
         <div className="heroInner">
