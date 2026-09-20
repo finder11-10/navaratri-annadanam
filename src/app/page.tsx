@@ -177,12 +177,13 @@ export default function Home() {
 
     setShowForm(false);
     setMessage("Spot submitted successfully and saved to Supabase.");
-  } catch (error) {
+    } catch (error) {
     console.error(error);
     setMessage("Unable to save the spot. Please try again.");
-    }
+  }
+}
 
-  return (
+return (
     <main className="page">
       <section className="hero">
         <div className="heroInner">
