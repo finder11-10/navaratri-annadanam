@@ -1,6 +1,10 @@
 "use client";
 
 import { FormEvent, useMemo, useState } from "react";
+import {
+  getSupabaseData,
+  insertSupabaseData,
+} from "./lib/supabase";
 
 type Status = "Active Now" | "Upcoming" | "Ended";
 
@@ -121,29 +125,46 @@ export default function Home() {
     );
   }
 
-  function submitSpot(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  async function submitSpot(e: FormEvent<HTMLFormElement>) {
+  e.preventDefault();
 
-    const newEvent: EventItem = {
-      id: Date.now(),
-      name: form.name.trim(),
-      organizer: form.organizer.trim() || "Community Organizer",
-      area: form.area.trim(),
-      city: form.city.trim() || "Hyderabad",
-      address: form.address.trim(),
-      time: form.time.trim() || "Time to be announced",
-      date: form.date.trim() || "Date to be announced",
-      status: "Upcoming",
-      distance: "—",
-      interested: 0,
-    };
+  const newEvent: EventItem = {
+    id: Date.now(),
+    name: form.name.trim(),
+    organizer: form.organizer.trim() || "Community Organizer",
+    area: form.area.trim(),
+    city: form.city.trim() || "Hyderabad",
+    address: form.address.trim(),
+    time: form.time.trim() || "Time to be announced",
+    date: form.date.trim() || "Date to be announced",
+    status: "Upcoming",
+    distance: "—",
+    interested: 0,
+  };
 
-    if (!newEvent.name || !newEvent.area || !newEvent.address) {
-      setMessage("Please fill in the event name, area and address.");
-      return;
-    }
+  if (!newEvent.name || !newEvent.area || !newEvent.address) {
+    setMessage("Please fill in the event name, area and address.");
+    return;
+  }
 
-    setEvents((current) => [newEvent, ...current]);
+  try {
+    const inserted = await insertSupabaseData("annadanam_spots", {
+      name: newEvent.name,
+      organizer: newEvent.organizer,
+      area: newEvent.area,
+      city: newEvent.city,
+      address: newEvent.address,
+      time: newEvent.time,
+      date: newEvent.date,
+      status: newEvent.status,
+      distance: newEvent.distance,
+      interested: newEvent.interested,
+    });
+
+    const savedEvent: EventItem = inserted[0] || newEvent;
+
+    setEvents((current) => [savedEvent, ...current]);
+
     setForm({
       name: "",
       organizer: "",
@@ -152,12 +173,15 @@ export default function Home() {
       address: "",
       time: "",
       date: "",
-    });
-    setShowForm(false);
-    setMessage("Spot submitted successfully and added as Upcoming.");
-  }
+    });         
 
-  return (
+    setShowForm(false);
+    setMessage("Spot submitted successfully and saved to Supabase.");
+  } catch (error) {
+    console.error(error);
+    setMessage("Unable to save the spot. Please try again.");
+  }
+    
     <main className="page">
       <section className="hero">
         <div className="heroInner">
