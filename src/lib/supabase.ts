@@ -21,3 +21,27 @@ export async function getSupabaseData(
 
   return response.json();
 }
+export async function insertSupabaseData(
+  table: string,
+  data: Record<string, unknown>
+) {
+  const response = await fetch(
+    `${supabaseUrl}/rest/v1/${table}`,
+    {
+      method: "POST",
+      headers: {
+        apikey: supabaseAnonKey,
+        Authorization: `Bearer ${supabaseAnonKey}`,
+        "Content-Type": "application/json",
+        Prefer: "return=representation",
+      },
+      body: JSON.stringify(data),
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to insert Supabase data");
+  }
+
+  return response.json();
+}
