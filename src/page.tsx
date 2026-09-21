@@ -516,7 +516,9 @@ return (
                   required
                         />
 
-        <button
+        </label>
+
+<button
   type="button"
   onClick={() => setShowMapPicker(true)}
   className="locationButton"
@@ -524,9 +526,7 @@ return (
   📍 Choose Location on Map
 </button>
 
-      </label>
-
-      <div className="twoColumns">
+<div className="twoColumns">
                 <label>
                   Date
                   <input
