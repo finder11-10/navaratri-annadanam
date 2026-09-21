@@ -1080,6 +1080,62 @@ return (
           }
         }
       `}</style>
-    </main>
-  );
-}
+
+{showMapPicker && (
+  <div
+    style={{
+      position: "fixed",
+      inset: 0,
+      background: "rgba(0,0,0,0.6)",
+      zIndex: 99999,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: "20px",
+    }}
+  >
+    <div
+      style={{
+        background: "#fff",
+        width: "100%",
+        maxWidth: "700px",
+        borderRadius: "16px",
+        overflow: "hidden",
+      }}
+    >
+      <div
+        style={{
+          padding: "14px 16px",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <strong>Choose Location on Map</strong>
+
+        <button
+          type="button"
+          onClick={() => setShowMapPicker(false)}
+          style={{
+            border: "none",
+            background: "transparent",
+            fontSize: "22px",
+            cursor: "pointer",
+          }}
+        >
+          ×
+        </button>
+      </div>
+
+      <div
+        ref={mapRef}
+        style={{
+          width: "100%",
+          height: "450px",
+        }}
+      />
+    </div>
+  </div>
+)}
+
+</main> 
