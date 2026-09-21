@@ -520,7 +520,10 @@ return (
 
 <button
   type="button"
-  onClick={() => setShowMapPicker(true)}
+  onClick={() => {
+  setShowMapPicker(true);
+  setMessage("Map button clicked successfully.");
+}}
   className="locationButton"
 >
   📍 Choose Location on Map
