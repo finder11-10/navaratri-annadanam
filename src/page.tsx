@@ -1092,8 +1092,8 @@ return (
     style={{
       position: "fixed",
       inset: 0,
-      background: "rgba(0,0,0,0.55)",
-      zIndex: 9999,
+      background: "rgba(0,0,0,0.6)",
+      zIndex: 99999,
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
@@ -1104,46 +1104,34 @@ return (
       style={{
         background: "#fff",
         width: "100%",
-        maxWidth: "700px",
+        maxWidth: "500px",
         borderRadius: "16px",
-        overflow: "hidden",
+        padding: "25px",
+        textAlign: "center",
       }}
     >
-      <div
+      <h2>Choose Location</h2>
+
+      <p>Map picker is opening correctly.</p>
+
+      <button
+        type="button"
+        onClick={() => setShowMapPicker(false)}
         style={{
-          padding: "14px 16px",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
+          padding: "12px 24px",
+          borderRadius: "8px",
+          border: "none",
+          background: "#b95118",
+          color: "#fff",
+          cursor: "pointer",
         }}
       >
-        <strong>Choose Location on Map</strong>
-
-        <button
-          type="button"
-          onClick={() => setShowMapPicker(false)}
-          style={{
-            border: "none",
-            background: "transparent",
-            fontSize: "22px",
-            cursor: "pointer",
-          }}
-        >
-          ×
-        </button>
-      </div>
-
-      <div
-        ref={mapRef}
-        style={{
-          width: "100%",
-          height: "450px",
-        }}
-      />
+        Close
+      </button>
     </div>
   </div>
 )}
 
-</main>
+    </main>
   );
 }
