@@ -520,7 +520,7 @@ return (
 
 <button
   type="button"
-  onClick={() => {
+  onPointerDown={() => {
   setShowMapPicker(true);
   setMessage("Map button clicked successfully.");
 }}
