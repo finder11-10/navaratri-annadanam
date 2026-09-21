@@ -94,11 +94,34 @@ export default function Home() {
     name: "",
     organizer: "",
     area: "",
-    city: "Hyderabad",
+    city: "",
     address: "",
     time: "",
     date: "",
-  });
+    });
+
+  function getCurrentLocation() {
+    if (!navigator.geolocation) {
+      setMessage("Location is not supported by this browser.");
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+
+        setForm((current) => ({
+          ...current,
+          address: `Current location: ${latitude}, ${longitude}`,
+        }));
+
+        setMessage("Current location captured successfully.");
+      },
+      () => {
+        setMessage("Unable to get your location. Please allow location access.");
+      }
+    );
+  }
 
   const filteredEvents = useMemo(() => {
     const term = search.trim().toLowerCase();
@@ -414,10 +437,18 @@ return (
                   placeholder="Enter the exact location"
                   rows={3}
                   required
-                />
-              </label>
+                        />
 
-              <div className="twoColumns">
+        <button
+          type="button"
+          onClick={getCurrentLocation}
+          className="locationButton"
+        >
+          📍 Use My Current Location
+        </button>
+      </label>
+
+      <div className="twoColumns">
                 <label>
                   Date
                   <input
