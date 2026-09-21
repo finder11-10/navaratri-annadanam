@@ -139,10 +139,16 @@ const markerRef = useRef<any>(null);
       link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
       document.head.appendChild(link);
 
-      const script = document.createElement("script");
-      script.src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
-      script.onload = () => initializeMap();
-      document.body.appendChild(script);
+     const script = document.createElement("script");
+script.src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
+script.async = true;
+script.onload = () => {
+  setTimeout(() => initializeMap(), 100);
+};
+script.onerror = () => {
+  setMessage("Unable to load the map. Please check your internet connection.");
+};
+document.body.appendChild(script);
     } else {
       initializeMap();
     }
