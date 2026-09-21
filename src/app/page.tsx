@@ -1127,8 +1127,58 @@ return (
         </button>
       </div>
 
-      <div
-        ref={mapRef}
+<button
+  type="button"
+  onClick={() => {
+    if (!navigator.geolocation) {
+      setMessage("Location is not supported by this browser.");
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        const map = mapInstanceRef.current;
+        const L = (window as any).L;
+
+        if (!map || !L) return;
+
+        map.setView([latitude, longitude], 16);
+
+        if (markerRef.current) {
+          markerRef.current.remove();
+        }
+
+        markerRef.current = L.marker([latitude, longitude]).addTo(map);
+
+        setForm((current) => ({
+          ...current,
+          address: `Selected location: ${latitude.toFixed(6)}, ${longitude.toFixed(6)}`,
+        }));
+
+        setMessage("Map recentered to your current location.");
+      },
+      () => {
+        setMessage("Unable to get your location. Please allow location access.");
+      }
+    );
+  }}
+  style={{
+    margin: "10px 16px",
+    padding: "10px 14px",
+    borderRadius: "8px",
+    border: "1px solid #dcd0c2",
+    background: "#fff7f0",
+    color: "#b95118",
+    fontWeight: 700,
+    cursor: "pointer",
+  }}
+>
+  📍 Re-center to My Location
+</button>
+
+<div
+  ref={mapRef}
         style={{
           width: "100%",
           height: "450px",
