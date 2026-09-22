@@ -1177,28 +1177,12 @@ return (
 
         markerRef.current = L.marker([latitude, longitude]).addTo(map);
 
-        fetch(
-  `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`
-)
-  .then((response) => response.json())
-  .then((data) => {
-    const readableAddress =
-      data.display_name ||
-      `Selected location: ${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+setForm((current) => ({
+  ...current,
+  address: `Selected location: ${latitude.toFixed(6)}, ${longitude.toFixed(6)}`,
+}));
 
-    setForm((current) => ({
-      ...current,
-      address: readableAddress,
-    }));
-  })
-  .catch(() => {
-    setForm((current) => ({
-      ...current,
-      address: `Selected location: ${lat.toFixed(6)}, ${lng.toFixed(6)}`,
-    }));
-  });
-
-        setMessage("Map recentered to your current location.");
+setMessage("Map recentered to your current location.");
       },
       () => {
         setMessage("Unable to get your location. Please allow location access.");
