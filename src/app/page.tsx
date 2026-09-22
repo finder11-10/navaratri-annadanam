@@ -1163,26 +1163,27 @@ return (
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        const { latitude, longitude } = position.coords;
-        const map = mapInstanceRef.current;
-        const L = (window as any).L;
+  const { latitude, longitude } = position.coords;
+  const map = mapInstanceRef.current;
+  const L = (window as any).L;
 
-        if (!map || !L) return;
+  if (!map || !L) return;
 
-        map.setView([latitude, longitude], 16);
+  map.setView([latitude, longitude], 16);
 
-        if (markerRef.current) {
-          markerRef.current.remove();
-        }
+  if (markerRef.current) {
+    markerRef.current.remove();
+  }
 
-        markerRef.current = L.marker([latitude, longitude]).addTo(map);
+  markerRef.current = L.marker([latitude, longitude]).addTo(map);
 
-setForm((current) => ({
-  ...current,
-  address: `Selected location: ${latitude.toFixed(6)}, ${longitude.toFixed(6)}`,
-}));
+  setForm((current) => ({
+    ...current,
+    address: `Selected location: ${latitude.toFixed(6)}, ${longitude.toFixed(6)}`,
+  }));
 
-setMessage("Map recentered to your current location.");
+  setMessage("Map recentered to your current location.");
+},
       },
       () => {
         setMessage("Unable to get your location. Please allow location access.");

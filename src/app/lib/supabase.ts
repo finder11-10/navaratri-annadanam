@@ -25,7 +25,7 @@ export async function getSupabaseData(
 export async function insertSupabaseData(
   table: string,
   data: Record<string, unknown>
-) {
+) {``
   const response = await fetch(
     `${supabaseUrl}/rest/v1/${table}`,
     {
@@ -41,8 +41,9 @@ export async function insertSupabaseData(
   );
 
   if (!response.ok) {
-    throw new Error("Failed to insert Supabase data");
-  }
+  const errorText = await response.text();
+  throw new Error(errorText || "Failed to insert Supabase data");
+}
 
   return response.json();
 }
