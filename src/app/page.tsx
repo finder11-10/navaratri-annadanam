@@ -1183,7 +1183,7 @@ return (
   }));
 
   setMessage("Map recentered to your current location.");
-},
+
       },
       () => {
         setMessage("Unable to get your location. Please allow location access.");
