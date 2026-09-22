@@ -524,23 +524,49 @@ return (
                 <label>
                   Date
                   <input
-                    value={form.date}
-                    onChange={(e) =>
-                      setForm({ ...form, date: e.target.value })
-                    }
-                    placeholder="11 October"
-                  />
+  type="date"
+  value={form.date}
+  onChange={(e) =>
+    setForm({ ...form, date: e.target.value })
+  }
+/>
                 </label>
 
                 <label>
                   Time
-                  <input
-                    value={form.time}
-                    onChange={(e) =>
-                      setForm({ ...form, time: e.target.value })
-                    }
-                    placeholder="11 AM - 3 PM"
-                  />
+                  <select
+  value={form.time}
+  onChange={(e) =>
+    setForm({ ...form, time: e.target.value })
+  }
+  required
+>
+  <option value="">Choose time</option>
+  <option value="11:00 AM">11:00 AM</option>
+  <option value="11:30 AM">11:30 AM</option>
+  <option value="12:00 PM">12:00 PM</option>
+  <option value="12:30 PM">12:30 PM</option>
+  <option value="1:00 PM">1:00 PM</option>
+  <option value="1:30 PM">1:30 PM</option>
+  <option value="2:00 PM">2:00 PM</option>
+  <option value="2:30 PM">2:30 PM</option>
+  <option value="3:00 PM">3:00 PM</option>
+  <option value="3:30 PM">3:30 PM</option>
+  <option value="4:00 PM">4:00 PM</option>
+  <option value="4:30 PM">4:30 PM</option>
+  <option value="5:00 PM">5:00 PM</option>
+  <option value="5:30 PM">5:30 PM</option>
+  <option value="6:00 PM">6:00 PM</option>
+  <option value="6:30 PM">6:30 PM</option>
+  <option value="7:00 PM">7:00 PM</option>
+  <option value="7:30 PM">7:30 PM</option>
+  <option value="8:00 PM">8:00 PM</option>
+  <option value="8:30 PM">8:30 PM</option>
+  <option value="9:00 PM">9:00 PM</option>
+  <option value="9:30 PM">9:30 PM</option>
+  <option value="10:00 PM">10:00 PM</option>
+  <option value="10:30 PM">10:30 PM</option>
+</select>
                 </label>
               </div>
 
