@@ -272,9 +272,14 @@ const markerRef = useRef<any>(null);
     setShowForm(false);
     setMessage("Spot submitted successfully and saved to Supabase.");
     } catch (error) {
-    console.error(error);
-    setMessage("Unable to save the spot. Please try again.");
-  }
+  console.error(error);
+
+  const errorMessage =
+    error instanceof Error ? error.message : String(error);
+
+  alert(errorMessage);
+  setMessage(errorMessage);
+}
 }
 
 return (
