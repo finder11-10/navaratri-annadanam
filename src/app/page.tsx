@@ -277,8 +277,8 @@ const markerRef = useRef<any>(null);
   const errorMessage =
     error instanceof Error ? error.message : String(error);
 
-  alert(errorMessage);
-  setMessage(errorMessage);
+  setShowForm(false);
+  setMessage(`Supabase error: ${errorMessage}`);
 }
 }
 
