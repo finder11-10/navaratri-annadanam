@@ -1,7 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getSupabaseData } from "../lib/supabase";
+import {
+  getSupabaseData,
+  updateSupabaseData,
+} from "../lib/supabase";
 
 type Spot = {
   id: number;
@@ -68,15 +71,29 @@ export default function AdminPage() {
           <p>Time: {spot.time}</p>
 
           <button
-            style={{
-              padding: "10px 18px",
-              borderRadius: "8px",
-              border: "none",
-              cursor: "pointer",
-            }}
-          >
-            Approve
-          </button>
+  onClick={async () => {
+    try {
+      await updateSupabaseData("annadanam_spots", spot.id, {
+        verified: true,
+      });
+
+      setSpots((current) =>
+        current.filter((item) => item.id !== spot.id)
+      );
+    } catch (error) {
+      console.error(error);
+      alert("Unable to approve this spot.");
+    }
+  }}
+  style={{
+    padding: "10px 18px",
+    borderRadius: "8px",
+    border: "none",
+    cursor: "pointer",
+  }}
+>
+  Approve
+</button>
         </div>
       ))}
     </main>
