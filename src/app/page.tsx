@@ -100,7 +100,37 @@ export default function Home() {
     time: "",
     date: "",
     });
-    
+    useEffect(() => {
+  async function loadVerifiedSpots() {
+    try {
+      const data = await getSupabaseData(
+        "annadanam_spots",
+        "?verified=eq.true&order=created_at.desc"
+      );
+
+      const verifiedSpots: EventItem[] = data.map((spot: any) => ({
+        id: Number(spot.id),
+        name: spot.name,
+        organizer: spot.organizer || "Community Organizer",
+        area: spot.area,
+        city: spot.city || "Hyderabad",
+        address: spot.address,
+        time: spot.time,
+        date: spot.date,
+        status: spot.status || "Upcoming",
+        distance: spot.distance || "—",
+        interested: Number(spot.interested || 0),
+      }));
+
+      setEvents((current) => [...verifiedSpots, ...current]);
+    } catch (error) {
+      console.error("Failed to load verified spots:", error);
+    }
+  }
+
+  loadVerifiedSpots();
+}, []);
+  
     const [showMapPicker, setShowMapPicker] = useState(false);
 const mapRef = useRef<HTMLDivElement | null>(null);
 const mapInstanceRef = useRef<any>(null);
