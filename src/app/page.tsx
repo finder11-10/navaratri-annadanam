@@ -253,6 +253,7 @@ const markerRef = useRef<any>(null);
       status: newEvent.status,
       distance: newEvent.distance,
       interested: newEvent.interested,
+verified: false,
     });
 
     const savedEvent: EventItem = inserted[0] || newEvent;
