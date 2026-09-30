@@ -47,3 +47,29 @@ export async function insertSupabaseData(
 
   return response.json();
 }
+export async function updateSupabaseData(
+  table: string,
+  id: number,
+  data: Record<string, unknown>
+) {
+  const response = await fetch(
+    `${supabaseUrl}/rest/v1/${table}?id=eq.${id}`,
+    {
+      method: "PATCH",
+      headers: {
+        apikey: supabaseAnonKey,
+        Authorization: `Bearer ${supabaseAnonKey}`,
+        "Content-Type": "application/json",
+        Prefer: "return=representation",
+      },
+      body: JSON.stringify(data),
+    }
+  );
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText || "Failed to update Supabase data");
+  }
+
+  return response.json();
+}
