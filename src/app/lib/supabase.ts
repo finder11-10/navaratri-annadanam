@@ -50,7 +50,8 @@ export async function insertSupabaseData(
 export async function updateSupabaseData(
   table: string,
   id: number,
-  data: Record<string, unknown>
+  data: Record<string, unknown>,
+accessToken?: string
 ) {
   const response = await fetch(
     `${supabaseUrl}/rest/v1/${table}?id=eq.${id}`,
@@ -58,7 +59,7 @@ export async function updateSupabaseData(
       method: "PATCH",
       headers: {
         apikey: supabaseAnonKey,
-        Authorization: `Bearer ${supabaseAnonKey}`,
+        Authorization: `Bearer ${accessToken || supabaseAnonKey}`,
         "Content-Type": "application/json",
         Prefer: "return=representation",
       },
