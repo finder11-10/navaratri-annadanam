@@ -129,8 +129,8 @@ return (
   onClick={async () => {
     try {
       await updateSupabaseData("annadanam_spots", spot.id, {
-        verified: true,
-      });
+  verified: true,
+}, accessToken);
 
       setSpots((current) =>
         current.filter((item) => item.id !== spot.id)
