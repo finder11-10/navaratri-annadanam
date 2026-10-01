@@ -117,8 +117,18 @@ if (!loggedIn) {
 
 return (
      <main style={{ padding: "30px", maxWidth: "900px", margin: "0 auto" }}>
-      <h1>Admin Verification</h1>
-      <p>Pending Annadanam Spots</p>
+      <div
+  style={{
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: "8px",
+  }}
+>
+  <h1 style={{ margin: 0 }}>Admin Verification</h1>
+</div>
+
+<p>Pending Annadanam Spots</p>
        <button
   onClick={() => {
     setLoggedIn(false);
