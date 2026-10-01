@@ -74,3 +74,29 @@ accessToken?: string
 
   return response.json();
 }
+export async function signInWithPassword(
+  email: string,
+  password: string
+) {
+  const response = await fetch(
+    `${supabaseUrl}/auth/v1/token?grant_type=password`,
+    {
+      method: "POST",
+      headers: {
+        apikey: supabaseAnonKey,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    }
+  );
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText || "Login failed");
+  }
+
+  return response.json();
+}
