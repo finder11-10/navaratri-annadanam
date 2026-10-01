@@ -136,9 +136,9 @@ return (
         current.filter((item) => item.id !== spot.id)
       );
     } catch (error) {
-      console.error(error);
-      alert("Unable to approve this spot.");
-    }
+  console.error(error);
+  alert(error instanceof Error ? error.message : "Unable to approve this spot.");
+}
   }}
   style={{
     padding: "10px 18px",
