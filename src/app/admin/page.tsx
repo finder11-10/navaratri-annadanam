@@ -100,6 +100,24 @@ return (
      <main style={{ padding: "30px", maxWidth: "900px", margin: "0 auto" }}>
       <h1>Admin Verification</h1>
       <p>Pending Annadanam Spots</p>
+       <button
+  onClick={() => {
+    setLoggedIn(false);
+    setAccessToken("");
+    setEmail("");
+    setPassword("");
+    setSpots([]);
+  }}
+  style={{
+    padding: "10px 18px",
+    borderRadius: "8px",
+    border: "none",
+    cursor: "pointer",
+    marginBottom: "20px",
+  }}
+>
+  Logout
+</button>
 
       {loading && <p>Loading...</p>}
 
