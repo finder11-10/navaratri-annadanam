@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import {
   getSupabaseData,
   updateSupabaseData,
+  signInWithPassword,
 } from "../lib/supabase";
 
 type Spot = {
@@ -19,10 +20,16 @@ type Spot = {
 };
 
 export default function AdminPage() {
+  const [loggedIn, setLoggedIn] = useState(false);
+const [email, setEmail] = useState("");
+const [password, setPassword] = useState("");
+const [accessToken, setAccessToken] = useState("");
+const [loginError, setLoginError] = useState("");
   const [spots, setSpots] = useState<Spot[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!loggedIn) return;
     async function loadPendingSpots() {
       try {
         const data = await getSupabaseData(
@@ -39,10 +46,58 @@ export default function AdminPage() {
     }
 
     loadPendingSpots();
-  }, []);
+  }, [loggedIn]);
+async function handleLogin(e: React.FormEvent) {
+  e.preventDefault();
+  setLoginError("");
 
+  try {
+    const result = await signInWithPassword(email, password);
+
+    setAccessToken(result.access_token);
+    setLoggedIn(true);
+  } catch (error) {
+    console.error(error);
+    setLoginError("Invalid email or password.");
+  }
+}
+  
+if (!loggedIn) {
   return (
-    <main style={{ padding: "30px", maxWidth: "900px", margin: "0 auto" }}>
+    <main style={{ padding: "30px", maxWidth: "500px", margin: "0 auto" }}>
+      <h1>Admin Login</h1>
+
+      <form onSubmit={handleLogin}>
+        <input
+          type="email"
+          placeholder="Admin email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          style={{ width: "100%", padding: "12px", marginBottom: "12px" }}
+        />
+
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          style={{ width: "100%", padding: "12px", marginBottom: "12px" }}
+        />
+
+        {loginError && <p>{loginError}</p>}
+
+        <button type="submit">
+          Login
+        </button>
+      </form>
+    </main>
+  );
+}
+
+return (
+     <main style={{ padding: "30px", maxWidth: "900px", margin: "0 auto" }}>
       <h1>Admin Verification</h1>
       <p>Pending Annadanam Spots</p>
 
