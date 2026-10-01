@@ -88,9 +88,28 @@ if (!loggedIn) {
 
         {loginError && <p>{loginError}</p>}
 
-        <button type="submit">
-          Login
-        </button>
+        <button
+  type="submit"
+  style={{
+    padding: "10px 24px",
+    borderRadius: "8px",
+    border: "1px solid #2f2925",
+    background: "#fff",
+    color: "#2f2925",
+    cursor: "pointer",
+    transition: "all 0.15s ease",
+  }}
+  onMouseDown={(e) => {
+    e.currentTarget.style.background = "#2f2925";
+    e.currentTarget.style.color = "#fff";
+  }}
+  onMouseUp={(e) => {
+    e.currentTarget.style.background = "#fff";
+    e.currentTarget.style.color = "#2f2925";
+  }}
+>
+  Login
+</button>
       </form>
     </main>
   );
@@ -109,11 +128,22 @@ return (
     setSpots([]);
   }}
   style={{
-    padding: "10px 18px",
+    padding: "10px 24px",
     borderRadius: "8px",
-    border: "none",
+    border: "1px solid #2f2925",
+    background: "#fff",
+    color: "#2f2925",
     cursor: "pointer",
+    transition: "all 0.15s ease",
     marginBottom: "20px",
+  }}
+  onMouseDown={(e) => {
+    e.currentTarget.style.background = "#2f2925";
+    e.currentTarget.style.color = "#fff";
+  }}
+  onMouseUp={(e) => {
+    e.currentTarget.style.background = "#fff";
+    e.currentTarget.style.color = "#2f2925";
   }}
 >
   Logout
@@ -159,11 +189,15 @@ return (
 }
   }}
   style={{
-    padding: "10px 18px",
-    borderRadius: "8px",
-    border: "none",
-    cursor: "pointer",
-  }}
+  padding: "10px 24px",
+  borderRadius: "8px",
+  border: "1px solid #2f2925",
+  background: "#fff",
+  color: "#2f2925",
+  cursor: "pointer",
+  transition: "all 0.15s ease",
+  marginBottom: "20px",
+}}
 >
   Approve
 </button>
