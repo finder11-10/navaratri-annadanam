@@ -5,6 +5,7 @@ import {
   getSupabaseData,
   updateSupabaseData,
   signInWithPassword,
+  deleteSupabaseData,
 } from "../lib/supabase";
 
 type Spot = {
@@ -210,6 +211,49 @@ return (
 }}
 >
   Approve
+</button>
+      <button
+  onClick={async () => {
+    try {
+      await deleteSupabaseData(
+        "annadanam_spots",
+        spot.id,
+        accessToken
+      );
+
+      setSpots((current) =>
+        current.filter((item) => item.id !== spot.id)
+      );
+    } catch (error) {
+      console.error(error);
+      alert(
+        error instanceof Error
+          ? error.message
+          : "Unable to reject this spot."
+      );
+    }
+  }}
+  style={{
+    padding: "10px 24px",
+    borderRadius: "8px",
+    border: "1px solid #2f2925",
+    background: "#fff",
+    color: "#2f2925",
+    cursor: "pointer",
+    transition: "all 0.15s ease",
+    marginLeft: "10px",
+    marginBottom: "20px",
+  }}
+  onMouseDown={(e) => {
+    e.currentTarget.style.background = "#2f2925";
+    e.currentTarget.style.color = "#fff";
+  }}
+  onMouseUp={(e) => {
+    e.currentTarget.style.background = "#fff";
+    e.currentTarget.style.color = "#2f2925";
+  }}
+>
+  Reject
 </button>
         </div>
       ))}
