@@ -100,3 +100,27 @@ export async function signInWithPassword(
 
   return response.json();
 }
+export async function deleteSupabaseData(
+  table: string,
+  id: number,
+  accessToken?: string
+) {
+  const response = await fetch(
+    `${supabaseUrl}/rest/v1/${table}?id=eq.${id}`,
+    {
+      method: "DELETE",
+      headers: {
+        apikey: supabaseAnonKey,
+        Authorization: `Bearer ${accessToken || supabaseAnonKey}`,
+        Prefer: "return=representation",
+      },
+    }
+  );
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText || "Failed to delete Supabase data");
+  }
+
+  return response.json();
+}
