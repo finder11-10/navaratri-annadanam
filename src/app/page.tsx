@@ -121,6 +121,7 @@ export default function Home() {
         status: spot.status || "Upcoming",
         distance: spot.distance || "—",
         interested: Number(spot.interested || 0),
+verified: spot.verified,
       }));
 
       setEvents((current) => [...verifiedSpots, ...current]);
@@ -399,10 +400,17 @@ return (
 {event.verified && (
   <span
     style={{
+      display: "inline-flex",
+      alignItems: "center",
+      gap: "4px",
       marginLeft: "8px",
+      padding: "3px 8px",
+      borderRadius: "999px",
+      background: "#f1f8f3",
+      color: "#237a3b",
       fontSize: "12px",
       fontWeight: "600",
-      color: "#2f2925",
+      border: "1px solid #b9dfc2",
     }}
   >
     ✓ Verified
