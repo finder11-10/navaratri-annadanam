@@ -21,6 +21,7 @@ type EventItem = {
   status: Status;
   distance: string;
   interested: number;
+  verified?: boolean;
 };
 
 const initialEvents: EventItem[] = [
@@ -398,6 +399,19 @@ return (
                       {event.status}
                     </span>
                     <h3>{event.name}</h3>
+
+{event.verified && (
+  <span
+    style={{
+      marginLeft: "8px",
+      fontSize: "12px",
+      fontWeight: "600",
+      color: "#2f2925",
+    }}
+  >
+    ✓ Verified
+  </span>
+)}
                     <p className="organizer">{event.organizer}</p>
                   </div>
                   <div className="distance">{event.distance}</div>
