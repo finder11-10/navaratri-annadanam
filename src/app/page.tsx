@@ -287,9 +287,7 @@ const markerRef = useRef<any>(null);
 verified: false,
     });
 
-    const savedEvent: EventItem = inserted[0] || newEvent;
-
-setForm({
+    setForm({
       name: "",
       organizer: "",
       area: "",
