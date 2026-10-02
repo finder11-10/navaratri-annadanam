@@ -289,9 +289,7 @@ verified: false,
 
     const savedEvent: EventItem = inserted[0] || newEvent;
 
-    setEvents((current) => [savedEvent, ...current]);
-
-    setForm({
+setForm({
       name: "",
       organizer: "",
       area: "",
