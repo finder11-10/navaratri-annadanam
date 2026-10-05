@@ -27,12 +27,12 @@ const [password, setPassword] = useState("");
 const [accessToken, setAccessToken] = useState("");
 const [loginError, setLoginError] = useState("");
   const [spots, setSpots] = useState<Spot[]>([]);
+  const [editingSpot, setEditingSpot] = useState<Spot | null>(null);
   const [loading, setLoading] = useState(true);
 
   async function loadPendingSpots() {
   try {
-    setLoading(true);
-
+    setLoading(tru
     const data = await getSupabaseData(
       "annadanam_spots",
       "?verified=eq.false&order=created_at.desc"
@@ -45,7 +45,41 @@ const [loginError, setLoginError] = useState("");
     setLoading(false);
   }
 }
+async function saveEditedSpot() {
+  if (!editingSpot) return;
 
+  try {
+    await updateSupabaseData(
+      "annadanam_spots",
+      editingSpot.id,
+      {
+        name: editingSpot.name,
+        organizer: editingSpot.organizer,
+        area: editingSpot.area,
+        city: editingSpot.city,
+        address: editingSpot.address,
+        date: editingSpot.date,
+        time: editingSpot.time,
+      },
+      accessToken
+    );
+
+    setSpots((current) =>
+      current.map((spot) =>
+        spot.id === editingSpot.id ? editingSpot : spot
+      )
+    );
+
+    setEditingSpot(null);
+  } catch (error) {
+    console.error(error);
+    alert(
+      error instanceof Error
+        ? error.message
+        : "Unable to save changes."
+    );
+  }
+}
 useEffect(() => {
   if (!loggedIn) return;
   loadPendingSpots();
@@ -229,6 +263,21 @@ return (
 >
   Approve
 </button>
+         <button
+  onClick={() => setEditingSpot(spot)}
+  style={{
+    padding: "10px 24px",
+    borderRadius: "8px",
+    border: "1px solid #2f2925",
+    background: "#fff",
+    color: "#2f2925",
+    cursor: "pointer",
+    marginRight: "10px",
+    marginBottom: "20px",
+  }}
+>
+  Edit
+</button> 
       <button
   onClick={async () => {
     try {
@@ -274,6 +323,111 @@ return (
 </button>
         </div>
       ))}
+       {editingSpot && (
+  <div
+    style={{
+      marginTop: "20px",
+      padding: "20px",
+      border: "1px solid #ddd",
+      borderRadius: "12px",
+      background: "#fff",
+    }}
+  >
+    <h2>Edit Spot</h2>
+
+    <input
+      value={editingSpot.name}
+      onChange={(e) =>
+        setEditingSpot({ ...editingSpot, name: e.target.value })
+      }
+      placeholder="Annadanam Name"
+      style={{ width: "100%", padding: "10px", marginBottom: "10px" }}
+    />
+
+    <input
+      value={editingSpot.organizer}
+      onChange={(e) =>
+        setEditingSpot({ ...editingSpot, organizer: e.target.value })
+      }
+      placeholder="Organizer"
+      style={{ width: "100%", padding: "10px", marginBottom: "10px" }}
+    />
+
+    <input
+      value={editingSpot.area}
+      onChange={(e) =>
+        setEditingSpot({ ...editingSpot, area: e.target.value })
+      }
+      placeholder="Area"
+      style={{ width: "100%", padding: "10px", marginBottom: "10px" }}
+    />
+
+    <input
+      value={editingSpot.city}
+      onChange={(e) =>
+        setEditingSpot({ ...editingSpot, city: e.target.value })
+      }
+      placeholder="City"
+      style={{ width: "100%", padding: "10px", marginBottom: "10px" }}
+    />
+
+    <input
+      value={editingSpot.address}
+      onChange={(e) =>
+        setEditingSpot({ ...editingSpot, address: e.target.value })
+      }
+      placeholder="Address"
+      style={{ width: "100%", padding: "10px", marginBottom: "10px" }}
+    />
+
+    <input
+      value={editingSpot.date}
+      onChange={(e) =>
+        setEditingSpot({ ...editingSpot, date: e.target.value })
+      }
+      placeholder="Date"
+      style={{ width: "100%", padding: "10px", marginBottom: "10px" }}
+    />
+
+    <input
+      value={editingSpot.time}
+      onChange={(e) =>
+        setEditingSpot({ ...editingSpot, time: e.target.value })
+      }
+      placeholder="Time"
+      style={{ width: "100%", padding: "10px", marginBottom: "10px" }}
+    />
+
+    <button
+      onClick={saveEditedSpot}
+      style={{
+        padding: "10px 24px",
+        borderRadius: "8px",
+        border: "1px solid #2f2925",
+        background: "#2f2925",
+        color: "#fff",
+        cursor: "pointer",
+        marginRight: "10px",
+      }}
+    >
+      Save Changes
+    </button>
+
+    <button
+      onClick={() => setEditingSpot(null)}
+      style={{
+        padding: "10px 24px",
+        borderRadius: "8px",
+        border: "1px solid #2f2925",
+        background: "#fff",
+        color: "#2f2925",
+        cursor: "pointer",
+      }}
+    >
+      Cancel
+    </button>
+  </div>
+)}
     </main>
   );
 }
