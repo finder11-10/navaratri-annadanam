@@ -32,7 +32,7 @@ const [loginError, setLoginError] = useState("");
 
   async function loadPendingSpots() {
   try {
-    setLoading(tru
+    setLoading(true);
     const data = await getSupabaseData(
       "annadanam_spots",
       "?verified=eq.false&order=created_at.desc"
