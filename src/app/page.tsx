@@ -84,13 +84,34 @@ function statusClass(status: Status) {
   if (status === "Upcoming") return "upcoming";
   return "ended";
 }
+function calculateDistance(
+  lat1: number,
+  lon1: number,
+  lat2: number,
+  lon2: number
+) {
+  const R = 6371;
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLon = ((lon2 - lon1) * Math.PI) / 180;
 
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos((lat1 * Math.PI) / 180) *
+      Math.cos((lat2 * Math.PI) / 180) *
+      Math.sin(dLon / 2) ** 2;
+
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
 export default function Home() {
   const [events, setEvents] = useState<EventItem[]>(initialEvents);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<"All" | "Verified" | Status>("All");
   const [showForm, setShowForm] = useState(false);
   const [message, setMessage] = useState("");
+  const [userLocation, setUserLocation] = useState<{
+  lat: number;
+  lng: number;
+} | null>(null);
 
   const [form, setForm] = useState({
     name: "",
@@ -266,7 +287,23 @@ const markerRef = useRef<any>(null);
     time: form.time.trim() || "Time to be announced",
     date: form.date.trim() || "Date to be announced",
     status: "Upcoming",
-    distance: "—",
+    distance: (() => {
+  const match = form.address.match(
+    /(?:Selected location|Current location):\s*(-?\d+(?:\.\d+)?),\s*(-?\d+(?:\.\d+)?)/
+  );
+
+  if (!userLocation || !match) return "—";
+
+  const spotLat = Number(match[1]);
+  const spotLng = Number(match[2]);
+
+  return `${calculateDistance(
+    userLocation.lat,
+    userLocation.lng,
+    spotLat,
+    spotLng
+  ).toFixed(1)} km`;
+})(),
     interested: 0,
   };
 
@@ -1215,6 +1252,11 @@ return (
     navigator.geolocation.getCurrentPosition(
       (position) => {
   const { latitude, longitude } = position.coords;
+
+setUserLocation({
+  lat: latitude,
+  lng: longitude,
+});
   const map = mapInstanceRef.current;
   const L = (window as any).L;
 
