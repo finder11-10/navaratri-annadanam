@@ -88,7 +88,7 @@ function statusClass(status: Status) {
 export default function Home() {
   const [events, setEvents] = useState<EventItem[]>(initialEvents);
   const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState<"All" | Status>("All");
+  const [filter, setFilter] = useState<"All" | "Verified" | Status>("All");
   const [showForm, setShowForm] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -230,7 +230,9 @@ const markerRef = useRef<any>(null);
     const term = search.trim().toLowerCase();
 
     return events.filter((event) => {
-      const matchesFilter = filter === "All" || event.status === filter;
+      const matchesFilter =
+  filter === "All" ||
+  (filter === "Verified" ? event.verified === true : event.status === filter);
       const matchesSearch =
         !term ||
         event.name.toLowerCase().includes(term) ||
@@ -351,7 +353,7 @@ return (
         </div>
 
         <div className="filters" role="group" aria-label="Filter spots">
-          {(["All", "Active Now", "Upcoming", "Ended"] as const).map(
+          (["All", "Verified", "Active Now", "Upcoming", "Ended"] as const).map(
             (option) => (
               <button
                 key={option}
