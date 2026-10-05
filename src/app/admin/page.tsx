@@ -129,7 +129,7 @@ return (
   <h1 style={{ margin: 0 }}>Admin Verification</h1>
 </div>
 
-<p>Pending Annadanam Spots</p>
+<p>Pending Annadanam Spots ({spots.length})</p>
        <button
   onClick={() => {
     setLoggedIn(false);
