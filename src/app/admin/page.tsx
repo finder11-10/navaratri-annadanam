@@ -29,25 +29,27 @@ const [loginError, setLoginError] = useState("");
   const [spots, setSpots] = useState<Spot[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (!loggedIn) return;
-    async function loadPendingSpots() {
-      try {
-        const data = await getSupabaseData(
-          "annadanam_spots",
-          "?verified=eq.false&order=created_at.desc"
-        );
+  async function loadPendingSpots() {
+  try {
+    setLoading(true);
 
-        setSpots(data);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    }
+    const data = await getSupabaseData(
+      "annadanam_spots",
+      "?verified=eq.false&order=created_at.desc"
+    );
 
-    loadPendingSpots();
-  }, [loggedIn]);
+    setSpots(data);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    setLoading(false);
+  }
+}
+
+useEffect(() => {
+  if (!loggedIn) return;
+  loadPendingSpots();
+}, [loggedIn]);
 async function handleLogin(e: React.FormEvent) {
   e.preventDefault();
   setLoginError("");
@@ -131,6 +133,21 @@ return (
 
 <p>Pending Annadanam Spots ({spots.length})</p>
        <button
+  onClick={loadPendingSpots}
+  style={{
+    padding: "10px 24px",
+    borderRadius: "8px",
+    border: "1px solid #2f2925",
+    background: "#fff",
+    color: "#2f2925",
+    cursor: "pointer",
+    marginBottom: "20px",
+  }}
+>
+  Refresh
+</button>
+
+<button
   onClick={() => {
     setLoggedIn(false);
     setAccessToken("");
