@@ -353,7 +353,7 @@ return (
         </div>
 
         <div className="filters" role="group" aria-label="Filter spots">
-          (["All", "Verified", "Active Now", "Upcoming", "Ended"] as const).map(
+          {(["All", "Verified", "Active Now", "Upcoming", "Ended"] as const).map(
             (option) => (
               <button
                 key={option}
