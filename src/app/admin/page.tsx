@@ -27,12 +27,14 @@ const [password, setPassword] = useState("");
 const [accessToken, setAccessToken] = useState("");
 const [loginError, setLoginError] = useState("");
   const [spots, setSpots] = useState<Spot[]>([]);
+  const [verifiedSpots, setVerifiedSpots] = useState<Spot[]>([]);
   const [editingSpot, setEditingSpot] = useState<Spot | null>(null);
   const [loading, setLoading] = useState(true);
 
   async function loadPendingSpots() {
   try {
     setLoading(true);
+
     const data = await getSupabaseData(
       "annadanam_spots",
       "?verified=eq.false&order=created_at.desc"
@@ -43,6 +45,19 @@ const [loginError, setLoginError] = useState("");
     console.error(error);
   } finally {
     setLoading(false);
+  }
+}
+
+async function loadVerifiedSpots() {
+  try {
+    const data = await getSupabaseData(
+      "annadanam_spots",
+      "?verified=eq.true&order=created_at.desc"
+    );
+
+    setVerifiedSpots(data);
+  } catch (error) {
+    console.error(error);
   }
 }
 async function saveEditedSpot() {
@@ -82,7 +97,9 @@ async function saveEditedSpot() {
 }
 useEffect(() => {
   if (!loggedIn) return;
+
   loadPendingSpots();
+  loadVerifiedSpots();
 }, [loggedIn]);
 async function handleLogin(e: React.FormEvent) {
   e.preventDefault();
@@ -323,6 +340,63 @@ return (
 </button>
         </div>
       ))}
+       <div style={{ marginTop: "40px" }}>
+  <h2>Verified Spots ({verifiedSpots.length})</h2>
+
+  {verifiedSpots.length === 0 ? (
+    <p>No verified spots.</p>
+  ) : (
+    verifiedSpots.map((spot) => (
+      <div
+        key={spot.id}
+        style={{
+          border: "1px solid #cfe3d3",
+          borderRadius: "12px",
+          padding: "20px",
+          marginTop: "16px",
+          background: "#f8fff9",
+        }}
+      >
+        <h2>{spot.name}</h2>
+        <p>Organizer: {spot.organizer}</p>
+        <p>Area: {spot.area}</p>
+        <p>City: {spot.city}</p>
+        <p>Address: {spot.address}</p>
+        <p>Date: {spot.date}</p>
+        <p>Time: {spot.time}</p>
+
+        <button
+          onClick={async () => {
+            try {
+              await deleteSupabaseData(
+                "annadanam_spots",
+                spot.id,
+                accessToken
+              );
+
+              setVerifiedSpots((current) =>
+                current.filter((item) => item.id !== spot.id)
+              );
+            } catch (error) {
+              console.error(error);
+              alert("Unable to delete this verified spot.");
+            }
+          }}
+          style={{
+            padding: "10px 24px",
+            borderRadius: "8px",
+            border: "1px solid #c62828",
+            background: "#fff",
+            color: "#c62828",
+            cursor: "pointer",
+          }}
+        >
+          Delete
+        </button>
+      </div>
+    ))
+  )}
+</div>
        {editingSpot && (
   <div
     style={{
