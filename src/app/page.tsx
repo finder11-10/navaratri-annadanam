@@ -24,60 +24,7 @@ type EventItem = {
   verified?: boolean;
 };
 
-const initialEvents: EventItem[] = [
-  {
-    id: 1,
-    name: "Durga Bhavi Navratri Annadanam",
-    organizer: "Durga Bhavi Youth",
-    area: "Kukatpally",
-    city: "Hyderabad",
-    address: "Durga Bhavi, Kukatpally, Hyderabad",
-    time: "11:00 AM - 3:00 PM",
-    date: "Today",
-    status: "Active Now",
-    distance: "2.1 km",
-    interested: 128,
-  },
-  {
-    id: 2,
-    name: "Navratri Anna Seva",
-    organizer: "Navratri Seva Committee",
-    area: "Miyapur",
-    city: "Hyderabad",
-    address: "Miyapur Main Road, Hyderabad",
-    time: "12:00 PM - 2:30 PM",
-    date: "Today",
-    status: "Active Now",
-    distance: "4.5 km",
-    interested: 94,
-  },
-  {
-    id: 3,
-    name: "Maa Durga Annadanam",
-    organizer: "Maa Durga Seva Trust",
-    area: "Chandanagar",
-    city: "Hyderabad",
-    address: "Chandanagar Community Hall, Hyderabad",
-    time: "12:00 PM - 4:00 PM",
-    date: "Tomorrow",
-    status: "Upcoming",
-    distance: "7.2 km",
-    interested: 76,
-  },
-  {
-    id: 4,
-    name: "Navaratri Community Annadhanam",
-    organizer: "Bachupally Youth",
-    area: "Bachupally",
-    city: "Hyderabad",
-    address: "Bachupally Community Ground, Hyderabad",
-    time: "11:30 AM - 3:30 PM",
-    date: "Tomorrow",
-    status: "Upcoming",
-    distance: "9.4 km",
-    interested: 61,
-  },
-];
+const initialEvents: EventItem[] = [];
 
 function statusClass(status: Status) {
   if (status === "Active Now") return "active";
